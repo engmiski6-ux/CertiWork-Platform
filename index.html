@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CertiWork Platform — Employee Certification</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+
+        <!-- Onboarding View -->
+        <section id="onboarding-view" class="view active">
+            <header class="site-header">
+                <div class="logo">Certi<span>Work</span></div>
+                <a href="admin.html" class="header-link">Admin Portal →</a>
+            </header>
+            <main class="page-main">
+                <div class="card card-center">
+                    <h1>Exam Onboarding</h1>
+                    <p class="subtitle">Complete your profile before starting the certification exam.</p>
+                    <form id="onboarding-form" novalidate>
+                        <div class="form-group">
+                            <label for="full-name">Full Name</label>
+                            <input type="text" id="full-name" name="full_name" placeholder="Enter your full name" required autocomplete="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" placeholder="you@company.com" required autocomplete="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="specialty">Specialty / Role</label>
+                            <select id="specialty" name="specialty" required>
+                                <option value="">Select your role</option>
+                                <option value="Web Developer">Web Developer</option>
+                                <option value="Web Designer">Web Designer</option>
+                                <option value="UI/UX Designer">UI/UX Designer</option>
+                                <option value="Others">Others</option>
+                            </select>
+                        </div>
+                        <div class="form-group hidden" id="other-specialty-group">
+                            <label for="other-specialty">Specify Your Role</label>
+                            <input type="text" id="other-specialty" name="other_specialty" placeholder="e.g. Frontend Engineer, Product Designer">
+                        </div>
+                        <p class="form-error" id="onboarding-error"></p>
+                        <button type="submit" class="btn btn-primary btn-block" id="start-exam-btn">Begin Certification Exam</button>
+                    </form>
+                </div>
+            </main>
+        </section>
+
+        <!-- Exam View -->
+        <section id="exam-view" class="view exam-view">
+            <div class="exam-header">
+                <div class="exam-brand">Certi<span>Work</span> Exam</div>
+                <div class="exam-meta">
+                    <span class="exam-counter" id="exam-counter">Question 1 of 4</span>
+                    <div class="exam-timer" id="exam-timer" aria-live="polite">45:00</div>
+                </div>
+            </div>
+            <div class="progress-wrap">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+            <main class="exam-body" id="exam-body">
+                <div class="card question-card" id="question-card">
+                    <div class="question-number" id="question-number">Question 1</div>
+                    <h2 class="question-text" id="question-text"></h2>
+                    <ul class="options-list" id="options-list"></ul>
+                    <div class="exam-nav">
+                        <button type="button" class="btn btn-secondary" id="prev-btn" disabled>Previous</button>
+                        <button type="button" class="btn btn-primary" id="next-btn">Next</button>
+                        <button type="button" class="btn btn-primary hidden" id="submit-btn">Submit Exam</button>
+                    </div>
+                </div>
+            </main>
+        </section>
+
+        <!-- Security Warning Modal -->
+        <div class="modal-overlay" id="security-modal" role="alertdialog" aria-labelledby="security-title">
+            <div class="modal">
+                <div class="modal-icon">⚠</div>
+                <h2 id="security-title">Security Warning</h2>
+                <p>SECURITY WARNING: You have left the exam window. Leaving the window one more time will result in instant disqualification and an automatic lock.</p>
+                <button type="button" class="btn btn-primary btn-block" id="security-ack-btn">I Understand — Continue Exam</button>
+            </div>
+        </div>
+
+        <!-- Disqualified View -->
+        <section id="disqualified-view" class="view">
+            <main class="page-main">
+                <div class="card card-center disqualified-card">
+                    <div class="results-icon fail">✕</div>
+                    <h1>Disqualified due to Security Breach</h1>
+                    <p class="subtitle">Your exam has been automatically submitted and locked due to repeated violations of the exam security policy.</p>
+                    <p class="text-slate" id="disqualified-score"></p>
+                </div>
+            </main>
+        </section>
+
+        <!-- Results View -->
+        <section id="results-view" class="view">
+            <header class="site-header">
+                <div class="logo">Certi<span>Work</span></div>
+            </header>
+            <main class="page-main">
+                <div class="card card-center results-card" id="results-card">
+                    <div class="results-icon" id="results-icon"></div>
+                    <h1 id="results-title"></h1>
+                    <p class="subtitle" id="results-subtitle"></p>
+                    <div class="score-display" id="score-display"></div>
+                    <p class="score-label" id="score-label"></p>
+                    <div class="results-actions">
+                        <button type="button" class="btn btn-primary btn-block hidden" id="download-cert-btn">Download Professional Certificate</button>
+                        <button type="button" class="btn btn-secondary btn-block hidden" id="retry-btn">Retry Exam</button>
+                    </div>
+                </div>
+            </main>
+        </section>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

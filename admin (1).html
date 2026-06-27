@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CertiWork Platform — Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Login View -->
+    <div id="login-view" class="admin-login-wrap">
+        <div class="card card-center">
+            <h1>Certi<span class="text-orange">Work</span> Admin</h1>
+            <p class="subtitle">HR & Training Manager Portal</p>
+            <form id="login-form" novalidate>
+                <div class="form-group">
+                    <label for="admin-email">Email</label>
+                    <input type="email" id="admin-email" value="admin@certiwork.com" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label for="admin-password">Password</label>
+                    <input type="password" id="admin-password" placeholder="Enter password" required autocomplete="current-password">
+                </div>
+                <p class="form-error" id="login-error"></p>
+                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            </form>
+            <p class="subtitle" style="margin-top:1.5rem;margin-bottom:0;font-size:0.8125rem;">
+                <a href="index.html">← Back to Employee Portal</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Dashboard View -->
+    <div id="dashboard-view" class="admin-layout hidden">
+        <header class="admin-header">
+            <h1>Certi<span>Work</span> Admin Dashboard</h1>
+            <div class="admin-user">
+                <span id="admin-name"></span>
+                <button type="button" class="btn btn-secondary btn-sm" id="logout-btn">Logout</button>
+            </div>
+        </header>
+
+        <main class="admin-content">
+            <!-- Metrics -->
+            <div class="stats-grid" id="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Candidates</div>
+                    <div class="stat-value orange" id="stat-candidates">—</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Pass Rate</div>
+                    <div class="stat-value" id="stat-pass-rate">—</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Active Questions</div>
+                    <div class="stat-value" id="stat-questions">—</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">By Specialty</div>
+                    <ul class="specialty-list" id="specialty-list"></ul>
+                </div>
+            </div>
+
+            <!-- Chart -->
+            <section class="chart-section">
+                <h2>Pass / Fail Distribution</h2>
+                <div class="chart-container">
+                    <canvas id="pass-fail-chart"></canvas>
+                </div>
+            </section>
+
+            <!-- Panels -->
+            <div class="admin-panels">
+                <!-- Question CRUD -->
+                <section class="panel">
+                    <div class="panel-header">
+                        <h2>Question Management</h2>
+                        <button type="button" class="btn btn-primary btn-sm" id="add-question-btn">+ Add Question</button>
+                    </div>
+                    <div class="panel-body">
+                        <table class="data-table" id="questions-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Question</th>
+                                    <th>Track</th>
+                                    <th>Answer</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="questions-tbody"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Candidate Results -->
+                <section class="panel">
+                    <div class="panel-header">
+                        <h2>Candidate Results</h2>
+                    </div>
+                    <div class="panel-body">
+                        <table class="data-table" id="results-table">
+                            <thead>
+                                <tr>
+                                    <th>Candidate</th>
+                                    <th>Specialty</th>
+                                    <th>Score</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="results-tbody"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Question Form Modal -->
+    <div class="admin-modal-overlay" id="question-modal">
+        <div class="admin-modal">
+            <div class="admin-modal-header">
+                <h2 id="question-modal-title">Add Question</h2>
+                <button type="button" class="close-btn" id="close-question-modal">&times;</button>
+            </div>
+            <form id="question-form">
+                <div class="admin-modal-body">
+                    <input type="hidden" id="q-id">
+                    <div class="form-group">
+                        <label for="q-text">Question Text</label>
+                        <textarea id="q-text" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="q-a">Option A</label>
+                        <input type="text" id="q-a" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="q-b">Option B</label>
+                        <input type="text" id="q-b" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="q-c">Option C</label>
+                        <input type="text" id="q-c" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="q-d">Option D</label>
+                        <input type="text" id="q-d" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="q-correct">Correct Option</label>
+                        <select id="q-correct" required>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="q-track">Track</label>
+                        <select id="q-track" required>
+                            <option value="Web Dev">Web Dev</option>
+                            <option value="Design">Design</option>
+                            <option value="UI/UX">UI/UX</option>
+                            <option value="General CS">General CS</option>
+                        </select>
+                    </div>
+                    <p class="form-error" id="question-form-error"></p>
+                </div>
+                <div class="admin-modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancel-question-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Question</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Answer Review Modal -->
+    <div class="admin-modal-overlay" id="review-modal">
+        <div class="admin-modal wide">
+            <div class="admin-modal-header">
+                <h2 id="review-modal-title">Candidate Answer Review</h2>
+                <button type="button" class="close-btn" id="close-review-modal">&times;</button>
+            </div>
+            <div class="admin-modal-body" id="review-modal-body">
+                <div class="loading"><div class="spinner"></div>Loading...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
